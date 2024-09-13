@@ -26,7 +26,7 @@ class CustomField extends StatelessWidget {
       readOnly: readOnly,
       focusNode:focusNode,
       controller: controller,
-      style: MyTextStyle.montserratRegular(16, AppColors.textColor),
+      style: MyTextStyle.montserratRegular(14, AppColors.textColor),
       obscureText:obscure,
       obscuringCharacter: "*",
       keyboardType: keyboard,
@@ -47,7 +47,7 @@ class CustomField extends StatelessWidget {
         ),
         filled: true,
         hintText: hint,
-        hintStyle: MyTextStyle.montserratRegular(14, AppColors.iconColor),
+        hintStyle: MyTextStyle.montserratRegular(12, AppColors.iconColor),
         fillColor: AppColors.whiteColor,
         contentPadding: contentPadding?? const EdgeInsets.all(10),
         border: OutlineInputBorder(
@@ -58,7 +58,7 @@ class CustomField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             borderSide:  BorderSide(color: AppColors.fieldColor,width: 1)
         ),
-        errorStyle: MyTextStyle.montserratRegular(12, Colors.red),
+        errorStyle: MyTextStyle.montserratRegular(10, Colors.red),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: const BorderSide(color: Colors.red,width: 1)

@@ -1,5 +1,16 @@
 export "package:flutter/material.dart";
+export 'package:track_it/views/notifications/notifications.dart';
+
+export 'package:fancy_popups_new/fancy_popups_new.dart';
+export 'package:track_it/views/home/widgets/card.dart';
+export 'package:track_it/widgets/no_data.dart';
+export 'package:shared_preferences/shared_preferences.dart';
+export 'package:track_it/utils/shared_pref.dart';
+export 'package:track_it/widgets/custom_loading.dart';
+export 'package:track_it/widgets/custom_field.dart';
+export 'package:track_it/widgets/custom_dropdown.dart';
 export 'package:track_it/views/auth/login.dart';
+export 'package:track_it/views/auth/controller/auth_controller.dart';
 export 'package:track_it/views/auth/register.dart';
 export 'package:track_it/views/dashboard.dart';
 export 'package:track_it/views/wallet/components/transaction_detail.dart';

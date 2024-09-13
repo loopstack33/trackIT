@@ -1,24 +1,30 @@
+import 'package:intl/intl.dart';
+
 import '../../../enums/dependencies.dart';
 
 class TransactionCard extends StatelessWidget {
   final VoidCallback? onTap;
   final VoidCallback onTap2;
+  final QueryDocumentSnapshot<Object?> data;
   final bool isPay;
-  const TransactionCard({super.key,this.isPay=false, this.onTap, required this.onTap2});
+  const TransactionCard({super.key,this.isPay=false, this.onTap, required this.onTap2, required this.data});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap2,
+      behavior: HitTestBehavior.translucent,
       child: Padding(padding: const EdgeInsets.all(10),
           child: Row(
+
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 45,
-                    height: 45,
+                    width: 35,
+                    height: 35,
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color: const Color(0xFFF0F6F5),
@@ -30,20 +36,32 @@ class TransactionCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextWidget(text: "Transfer", size: 14, fontFamily: "medium", color: AppColors.blackColor),
-                      TextWidget(text: "Jan 30, 2024", size: 12, fontFamily: "regular", color: AppColors.textColor)
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width*0.5,
+                        child: TextWidget(text: data.get("name").toString().trim(), size: 12, fontFamily: "medium", color: AppColors.blackColor),
+                      ),
+                      TextWidget(text: DateFormat("MMM dd, yyyy").format((data.get("date") as Timestamp).toDate()), size: 10, fontFamily: "regular", color: AppColors.textColor)
                     ],
                   )
                 ],
               ),
-              if(isPay)...[
-                CustomButton(onTap: onTap!, text: "Pay",color: AppColors.primaryLight,
-                  textColor: AppColors.primaryColor,width: 80,height: 35,borderColor: AppColors.primaryLight,
-                  size: 12,)
-              ]
-              else...[
-                TextWidget(text: "+ \$850", size: 16, fontFamily: "semi", color: AppColors.incomeColor)
-              ]
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  TextWidget(text:data.get("type").toString()=="Income"? "+ ${NumberFormat.currency(locale: "ur_PK", symbol: "Rs ",decimalDigits: 0).format( data.get("amount"))}":
+                  "- ${NumberFormat.currency(locale: "ur_PK", symbol: "Rs ",decimalDigits: 0).format( data.get("amount"))}", size: 14, fontFamily: "semi", color: data.get("type").toString()=="Income"?
+                  AppColors.incomeColor:
+                  AppColors.outComeColor),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: data.get("paid")==true?AppColors.incomeColor.withOpacity(0.25):AppColors.outComeColor.withOpacity(0.25)
+                    ),
+                    child:  TextWidget(text: data.get("paid")==true?"Paid":"Un-Paid", size: 8, fontFamily: "semi", color: data.get("paid")==true?AppColors.incomeColor:AppColors.outComeColor),
+                  )
+                ],
+              )
             ],
           ))
     );

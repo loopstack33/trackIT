@@ -7,6 +7,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var autController = Get.put(AuthController());
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
@@ -30,8 +31,8 @@ class ProfileScreen extends StatelessWidget {
                     backgroundColor: AppColors.whiteColor,
                   ),
                   const SizedBox(height: 10),
-                  TextWidget(text: "Mohammad Manan", size: 16, fontFamily: "semi", color: AppColors.whiteColor),
-                  TextWidget(text: "loopsstack@gmail.com", size: 12, fontFamily: "medium", color: AppColors.whiteColor),
+                  TextWidget(text: autController.userName.value.toString(), size: 16, fontFamily: "semi", color: AppColors.whiteColor),
+                  TextWidget(text: autController.userEmail.value.toString(), size: 12, fontFamily: "medium", color: AppColors.whiteColor),
                 ],
               ),
             ),
@@ -45,7 +46,12 @@ class ProfileScreen extends StatelessWidget {
             ProfileWidget(image: AppImages.users, title: "Personal Profile"),
             ProfileWidget(image: AppImages.email, title: "Message Center"),
             ProfileWidget(image: AppImages.shield, title: "Login and security"),
-            ProfileWidget(image: AppImages.lock, title: "Data and privacy"),
+            ProfileWidget(image: AppImages.lock, title: "Log Out",onTap: () async{
+              SharedPreferences preferences = await SharedPreferences.getInstance();
+              preferences.setString("uid", "null");
+              preferences.setBool("IsLoggedIn", false);
+              Get.offAll(()=> const Login(from: false));
+            }),
             const Spacer(),
           ],
         ),

@@ -1,14 +1,8 @@
-
 import '../../enums/dependencies.dart';
 
-class StatsScreen extends StatefulWidget {
-  const StatsScreen({super.key});
+class Notifications extends StatelessWidget {
+  const Notifications({super.key});
 
-  @override
-  State<StatsScreen> createState() => _StatsScreenState();
-}
-
-class _StatsScreenState extends State<StatsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,15 +26,16 @@ class _StatsScreenState extends State<StatsScreen> {
                 ),
                 padding: const EdgeInsets.only(left: 20,right: 20,top: 30),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextWidget(text: "Statistics", size: 20, fontFamily: "semi", color: AppColors.whiteColor),
                     GestureDetector(
-                      onTap: (){
-                        Get.to(()=> const Notifications());
-                      },
-                      child: Icon(Icons.notifications_active_rounded,color: AppColors.whiteColor)
-                    )
+                        onTap: (){
+                          Get.back();
+                        },
+                        child: Image.asset(AppImages.arrow,width: 20,height: 20,)
+                    ),
+                    const SizedBox(width: 20),
+                    TextWidget(text: "Notifications", size: 20, fontFamily: "semi", color: AppColors.whiteColor),
+
                   ],
                 )),
             Expanded(child:  Container(

@@ -18,10 +18,28 @@ class _SplashState extends State<Splash> {
     checkLoggedIn();
   }
 
-  checkLoggedIn(){
-    Future.delayed(const Duration(seconds: 2),(){
-      Get.to(()=> const Welcome());
-    });
+  var autController = Get.put(AuthController());
+
+  checkLoggedIn() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var isLoggedIn = prefs.getBool("IsLoggedIn");
+    var uid = prefs.getString("uid");
+
+    if(isLoggedIn==true && uid!=null){
+      autController.getUserData(uid,true);
+    }
+    else if(isLoggedIn==false && uid=="null" ){
+      Future.delayed(const Duration(seconds: 1),(){
+        Get.offAll(()=> const Login(from: false));
+      });
+    }
+    else{
+      Future.delayed(const Duration(seconds: 1),(){
+        Get.offAll(()=> const Welcome());
+      });
+    }
+
   }
 
   @override

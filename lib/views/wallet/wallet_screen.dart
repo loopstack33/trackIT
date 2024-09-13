@@ -1,5 +1,6 @@
 
 
+import 'package:intl/intl.dart';
 import 'package:track_it/views/wallet/components/wallet_details.dart';
 
 import '../../enums/dependencies.dart';
@@ -12,6 +13,8 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+
+  var autController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +39,17 @@ class _WalletScreenState extends State<WalletScreen> {
                       borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20))
                   ),
-                  padding: const EdgeInsets.only(left: 20,right: 20,top: 20),
+                  padding: const EdgeInsets.only(left: 20,right: 20,top: 30),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextWidget(text: "Wallet", size: 18, fontFamily: "semi", color: AppColors.whiteColor),
-                      Icon(Icons.notifications_active_rounded,color: AppColors.whiteColor)
+                      GestureDetector(
+                          onTap: (){
+                            Get.to(()=> const Notifications());
+                          },
+                          child: Icon(Icons.notifications_active_rounded,color: AppColors.whiteColor)
+                      )
                     ],
                   )),
               Expanded(child: Container(
@@ -52,7 +60,26 @@ class _WalletScreenState extends State<WalletScreen> {
                 child: Column(
                   children: [
                     TextWidget(text: "Total Balance", size: 16, fontFamily: "medium", color: AppColors.iconColor),
-                    TextWidget(text: "\$ 2,570", size: 30, fontFamily: "semi", color: AppColors.blackColor),
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection("users").where("uid",isEqualTo: autController.userID.value).snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          if(snapshot.data!.docs.isNotEmpty){
+                            var balance = snapshot.data!.docs[0].get("balance");
+                            return TextWidget(text: NumberFormat.currency(locale: "ur_PK", symbol: "Rs ",decimalDigits: 0).format(balance), size: 30, fontFamily: "semi", color: AppColors.blackColor);
+                          }
+                          else {
+                            return TextWidget(text: "Rs 0", size: 30, fontFamily: "semi", color: AppColors.blackColor);
+                          }
+                        }
+                        else if(snapshot.hasError){
+                          return TextWidget(text: "Rs 0", size: 30, fontFamily: "semi", color: AppColors.blackColor);
+                        }
+                        else {
+                          return TextWidget(text: "Rs 0", size: 30, fontFamily: "semi", color: AppColors.blackColor);
+                        }
+                      },
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -64,18 +91,19 @@ class _WalletScreenState extends State<WalletScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-
                               Container(
-                                width: 60,
-                                height: 60,
+                                width: 50,
+                                height: 50,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    border: Border.all(color: AppColors.primaryColor)
+                                    border: Border.all(color: AppColors.primaryColor),
+                                  image: DecorationImage(
+                                    image: AssetImage(AppImages.plus)
+                                  )
                                 ),
-                                child: Image.asset(AppImages.plus),
                               ),
                               const SizedBox(height: 5),
-                              TextWidget(text: "Add", size: 14, fontFamily: "medium", color: AppColors.blackColor),
+                              TextWidget(text: "Add", size: 12, fontFamily: "medium", color: AppColors.blackColor),
                             ],
                           ),
                         ),
@@ -84,32 +112,36 @@ class _WalletScreenState extends State<WalletScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              width: 60,
-                              height: 60,
+                              width: 50,
+                              height: 50,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: AppColors.primaryColor)
+                                  border: Border.all(color: AppColors.primaryColor),
+                                  image: DecorationImage(
+                                      image: AssetImage(AppImages.qr)
+                                  )
                               ),
-                              child: Image.asset(AppImages.qr),
                             ),
                             const SizedBox(height: 5),
-                            TextWidget(text: "Pay", size: 14, fontFamily: "medium", color: AppColors.blackColor),
+                            TextWidget(text: "Pay", size: 12, fontFamily: "medium", color: AppColors.blackColor),
                           ],
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              width: 60,
-                              height: 60,
+                              width: 50,
+                              height: 50,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: AppColors.primaryColor)
+                                  border: Border.all(color: AppColors.primaryColor),
+                                  image: DecorationImage(
+                                      image: AssetImage(AppImages.send)
+                                  )
                               ),
-                              child: Image.asset(AppImages.send),
                             ),
                             const SizedBox(height: 5),
-                            TextWidget(text: "Send", size: 14, fontFamily: "medium", color: AppColors.blackColor),
+                            TextWidget(text: "Send", size: 12, fontFamily: "medium", color: AppColors.blackColor),
                           ],
                         ),
                       ],
