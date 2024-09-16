@@ -58,9 +58,7 @@ class BankCard extends StatelessWidget {
               return Container();
             }
             else {
-              return  Center(
-                child: CircularProgressIndicator(color: AppColors.primaryColor),
-              );
+              return Container();
             }
           },
         ),
