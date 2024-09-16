@@ -1,8 +1,4 @@
-
-
 import 'package:intl/intl.dart';
-import 'package:track_it/views/wallet/components/wallet_details.dart';
-
 import '../../enums/dependencies.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -28,7 +24,7 @@ class _WalletScreenState extends State<WalletScreen> {
             children: [
               Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 100,
+                  height: 110,
                   decoration: BoxDecoration(
                       color: AppColors.whiteColor,
                       image: DecorationImage(
@@ -39,7 +35,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20))
                   ),
-                  padding: const EdgeInsets.only(left: 20,right: 20,top: 30),
+                  padding: const EdgeInsets.only(left: 20,right: 20,top: 40),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -86,7 +82,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       children: [
                         GestureDetector(
                           onTap: (){
-                            Get.to(()=> const TransactionAdd());
+                            Get.to(()=> const MyBanks());
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,17 +93,14 @@ class _WalletScreenState extends State<WalletScreen> {
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(color: AppColors.primaryColor),
-                                  image: DecorationImage(
-                                    image: AssetImage(AppImages.plus)
-                                  )
                                 ),
+                                child: Icon(Icons.account_balance_rounded,color: AppColors.primaryColor),
                               ),
                               const SizedBox(height: 5),
-                              TextWidget(text: "Add", size: 12, fontFamily: "medium", color: AppColors.blackColor),
+                              TextWidget(text: "Banks", size: 12, fontFamily: "medium", color: AppColors.blackColor),
                             ],
                           ),
                         ),
-
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -117,13 +110,11 @@ class _WalletScreenState extends State<WalletScreen> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(color: AppColors.primaryColor),
-                                  image: DecorationImage(
-                                      image: AssetImage(AppImages.qr)
-                                  )
                               ),
+                              child: Icon(Icons.send_outlined ,color: AppColors.primaryColor),
                             ),
                             const SizedBox(height: 5),
-                            TextWidget(text: "Pay", size: 12, fontFamily: "medium", color: AppColors.blackColor),
+                            TextWidget(text: "Send", size: 12, fontFamily: "medium", color: AppColors.blackColor),
                           ],
                         ),
                         Column(
@@ -133,15 +124,13 @@ class _WalletScreenState extends State<WalletScreen> {
                               width: 50,
                               height: 50,
                               decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: AppColors.primaryColor),
-                                  image: DecorationImage(
-                                      image: AssetImage(AppImages.send)
-                                  )
+                                shape: BoxShape.circle,
+                                border: Border.all(color: AppColors.primaryColor),
                               ),
+                              child: Icon(Icons.share ,color: AppColors.primaryColor),
                             ),
                             const SizedBox(height: 5),
-                            TextWidget(text: "Send", size: 12, fontFamily: "medium", color: AppColors.blackColor),
+                            TextWidget(text: "Share", size: 12, fontFamily: "medium", color: AppColors.blackColor),
                           ],
                         ),
                       ],

@@ -20,12 +20,13 @@ class _RegisterState extends State<Register> {
             color: AppColors.whiteColor,
             image: DecorationImage(
                 image: AssetImage(AppImages.top),
-                alignment: Alignment.topCenter
+                alignment: Alignment.topCenter,
+                fit: BoxFit.fitWidth
             )
         ),
         child: SingleChildScrollView(
           child: Form(
-              key: authController.formKey2,
+            key: authController.formKey2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -38,7 +39,7 @@ class _RegisterState extends State<Register> {
                             onTap: (){
                               Get.back();
                             },
-                            child: Image.asset(AppImages.arrow,width: 20,height: 20,)
+                            child: const Icon(Icons.arrow_back_ios_new,color: Colors.white)
                         ),
                         TextWidget(text:"REGISTER", size: 18, fontFamily: "semi", color: AppColors.whiteColor),
                         Icon(Icons.help,color: AppColors.whiteColor),
@@ -64,7 +65,7 @@ class _RegisterState extends State<Register> {
                       children: [
                         TextWidget(text: "NAME", size: 12, fontFamily: "medium", color: AppColors.textColor),
                         const SizedBox(height: 5),
-                        CustomField(hint: "Enter Name", controller: authController.name,suffixIcon: Image.asset(AppImages.user,width: 25,height: 25,color: const Color(0xFF979C9E),),
+                        CustomField(hint: "Enter Name", controller: authController.name,
                           validator: (value) {
                             if(value ==null || value.isEmpty){
                               return "Please Enter Your Name";
@@ -75,7 +76,7 @@ class _RegisterState extends State<Register> {
                         const SizedBox(height: 10),
                         TextWidget(text: "EMAIL", size: 12, fontFamily: "medium", color: AppColors.textColor),
                         const SizedBox(height: 5),
-                        CustomField(hint: "Enter Email", controller: authController.email2,suffixIcon: Image.asset(AppImages.email,width: 25,height: 25,color: const Color(0xFF979C9E),),
+                        CustomField(hint: "Enter Email", controller: authController.email2,suffixIcon:const Icon(Icons.mail_rounded,color: Color(0xFF979C9E)),
                           validator: (value) {
                             if(value ==null || value.isEmpty){
                               return "Please Enter Your Email";
@@ -167,7 +168,7 @@ class _RegisterState extends State<Register> {
                         const SizedBox(height: 20),
                         CustomButton(onTap: (){
                           if (authController.formKey2.currentState!.validate()) {
-                            //authController.signUp();
+                            authController.signUp();
                           }
 
                         }, text: "Register",
@@ -199,8 +200,6 @@ class _RegisterState extends State<Register> {
                       ],
                     )
                 ),
-
-
               ],
             )
           )

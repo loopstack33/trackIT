@@ -30,7 +30,8 @@ class _LoginState extends State<Login> {
             color: AppColors.whiteColor,
             image: DecorationImage(
                 image: AssetImage(AppImages.top),
-                alignment: Alignment.topCenter
+                alignment: Alignment.topCenter,
+                fit: BoxFit.fitWidth
             )
         ),
         child: SingleChildScrollView(
@@ -78,7 +79,8 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 20),
                       TextWidget(text: "EMAIL", size: 12, fontFamily: "medium", color: AppColors.textColor),
                       const SizedBox(height: 5),
-                      CustomField(hint: "Enter Email", controller: authController.email,suffixIcon: Image.asset(AppImages.email,width: 25,height: 25,color: const Color(0xFF979C9E)),
+                      CustomField(hint: "Enter Email", controller: authController.email,
+                        suffixIcon: const Icon(Icons.mail_rounded,color: Color(0xFF979C9E)),
                         validator: (value) {
                           if(value ==null || value.isEmpty){
                             return "Please Enter Your Email";

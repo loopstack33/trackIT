@@ -1,6 +1,10 @@
 export "package:flutter/material.dart";
+export 'package:intl_phone_field/countries.dart';
+export 'package:track_it/views/wallet/components/add_bank.dart';
+export 'package:track_it/views/wallet/components/my_banks.dart';
+export 'package:track_it/views/wallet/components/wallet_details.dart';
 export 'package:track_it/views/notifications/notifications.dart';
-
+export 'package:track_it/views/profile/controller/profile_controller.dart';
 export 'package:fancy_popups_new/fancy_popups_new.dart';
 export 'package:track_it/views/home/widgets/card.dart';
 export 'package:track_it/widgets/no_data.dart';

@@ -92,9 +92,14 @@ class WalletController extends GetxController {
       "paid": selectedStatus.value=="Paid"? true : false
     }).then((val){
 
-      if(selectedStatus.value=="Paid"){
+      if(selectedType.value=="Expense" && selectedStatus.value=="Paid"){
         store.collection("users").doc(userID).update({
           "balance": FieldValue.increment(-int.parse(amount.text.toString().trim()))
+        });
+      }
+      else if(selectedType.value=="Income" && selectedStatus.value=="Paid"){
+        store.collection("users").doc(userID).update({
+          "balance": FieldValue.increment(int.parse(amount.text.toString().trim()))
         });
       }
 
@@ -105,6 +110,42 @@ class WalletController extends GetxController {
     }).catchError((e){
       BotToast.closeAllLoading();
       BotToast.showText(text: "Failed to add transaction.");
+    });
+  }
+
+  updateTransaction2(id,userID){
+
+    BotToast.showCustomLoading(
+        clickClose: false,
+        allowClick: false,
+        backButtonBehavior: BackButtonBehavior.none,
+        ignoreContentClick: false,
+        animationDuration:
+        const Duration(milliseconds:  200),
+        animationReverseDuration:
+        const Duration(milliseconds: 200),
+        backgroundColor: const Color(0x42000000),
+        align: Alignment.center,
+        toastBuilder: (cancelFunc) {
+          return CustomLoading(cancelFunc: cancelFunc);
+        });
+
+    store.collection("transactions").doc(id).update({
+      "date": selectedDate.value,
+      "name": name.text.toString().trim(),
+    }).then((val){
+
+      resetValues();
+      BotToast.closeAllLoading();
+      BotToast.showText(text: "Transaction Updated Successfully");
+      Get.back();
+      Get.back();
+
+
+    }).catchError((e){
+      Get.back();
+      BotToast.closeAllLoading();
+      BotToast.showText(text: "Failed to update transaction.");
     });
   }
 
@@ -204,14 +245,113 @@ class WalletController extends GetxController {
 
   setValues(QueryDocumentSnapshot<Object?> data){
     name.text = data.get("name");
-    amount.text = data.get("amount").toString();
-    isBill.value = data.get("isBill");
-    selectedType.value = data.get("type");
     selectedDate.value = (data.get("date") as Timestamp).toDate();
     date.text = DateFormat("dd-MM-yyyy").format((data.get("date") as Timestamp).toDate());
-    selectedStatus.value = data.get("paid")==true?"Paid":"Un-Paid";
     docID.value = data.get("uid");
     update();
+  }
+
+  final formKey1 = GlobalKey<FormState>();
+  TextEditingController accountHolder = TextEditingController();
+  TextEditingController accountNumber = TextEditingController();
+
+  var bank = "".obs;
+  var docID2 = "".obs;
+
+  setBank(value){
+    bank.value = value;
+    update();
+  }
+
+  setBankDetails(QueryDocumentSnapshot<Object?> data){
+    bank.value = data.get("bankID");
+    docID2.value = data.get("uid");
+    accountNumber.text = data.get("accountNumber");
+    accountHolder.text = data.get("accountHolder");
+    update();
+  }
+  resetBankDetails(){
+    bank.value = "";
+    docID2.value = "";
+    accountNumber.text = "";
+    accountHolder.text = "";
+    update();
+  }
+
+  addBank(userID){
+    BotToast.showCustomLoading(
+        clickClose: false,
+        allowClick: false,
+        backButtonBehavior: BackButtonBehavior.none,
+        ignoreContentClick: false,
+        animationDuration:
+        const Duration(milliseconds:  200),
+        animationReverseDuration:
+        const Duration(milliseconds: 200),
+        backgroundColor: const Color(0x42000000),
+        align: Alignment.center,
+        toastBuilder: (cancelFunc) {
+          return CustomLoading(cancelFunc: cancelFunc);
+        });
+
+    String id = const Uuid().v1().toString();
+    store.collection("users").doc(userID).collection("banks").doc(id).set({
+      "date": DateTime.now(),
+      "accountNumber" : accountNumber.text.trim().toString(),
+      "accountHolder" : accountHolder.text.toString().trim(),
+      "userID": userID,
+      "uid": id,
+      "bankID": bank.value
+    }).then((val){
+
+      BotToast.closeAllLoading();
+      BotToast.showText(text: "Bank Added Successfully");
+      accountNumber.text = "";
+      accountHolder.text = "";
+      bank.value = "";
+      update();
+      Get.back();
+
+    }).catchError((e){
+      BotToast.closeAllLoading();
+      BotToast.showText(text: "Failed to add bank.");
+    });
+  }
+
+  updateBank(userID){
+    BotToast.showCustomLoading(
+        clickClose: false,
+        allowClick: false,
+        backButtonBehavior: BackButtonBehavior.none,
+        ignoreContentClick: false,
+        animationDuration:
+        const Duration(milliseconds:  200),
+        animationReverseDuration:
+        const Duration(milliseconds: 200),
+        backgroundColor: const Color(0x42000000),
+        align: Alignment.center,
+        toastBuilder: (cancelFunc) {
+          return CustomLoading(cancelFunc: cancelFunc);
+        });
+
+    store.collection("users").doc(userID).collection("banks").doc(docID2.value).update({
+      "accountNumber" : accountNumber.text.trim().toString(),
+      "accountHolder" : accountHolder.text.toString().trim(),
+      "bankID": bank.value
+    }).then((val){
+
+      BotToast.closeAllLoading();
+      BotToast.showText(text: "Bank Updated Successfully");
+      accountNumber.text = "";
+      accountHolder.text = "";
+      bank.value = "";
+      update();
+      Get.back();
+
+    }).catchError((e){
+      BotToast.closeAllLoading();
+      BotToast.showText(text: "Failed to update bank.");
+    });
   }
 
 }

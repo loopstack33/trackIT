@@ -47,6 +47,7 @@ class CustomField extends StatelessWidget {
         ),
         filled: true,
         hintText: hint,
+
         hintStyle: MyTextStyle.montserratRegular(12, AppColors.iconColor),
         fillColor: AppColors.whiteColor,
         contentPadding: contentPadding?? const EdgeInsets.all(10),
@@ -65,7 +66,7 @@ class CustomField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide:  BorderSide(color: AppColors.primaryLight,width: 1)
+            borderSide:  BorderSide(color: AppColors.fieldColor,width: 1)
         ),
         errorBorder:  OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),

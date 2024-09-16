@@ -14,9 +14,9 @@ class TransactionCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap2,
       behavior: HitTestBehavior.translucent,
-      child: Padding(padding: const EdgeInsets.all(10),
+      child: Padding(
+          padding: const EdgeInsets.all(10),
           child: Row(
-
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
@@ -30,7 +30,14 @@ class TransactionCard extends StatelessWidget {
                       color: const Color(0xFFF0F6F5),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Image.asset(AppImages.currency),
+                    child: Image.asset(
+                        data.get("name").toString().trim().contains("Withdraw")?
+                        AppImages.withdraw:
+                        data.get("name").toString().trim().contains("Cash") || data.get("name").toString().trim().contains("Credit") || data.get("name").toString().trim().contains("Amount")?
+                        AppImages.cash:
+                        data.get("name").toString().trim().contains("Bank")?
+                        AppImages.bankIcon:
+                        AppImages.bill),
                   ),
                   const SizedBox(width: 10),
                   Column(

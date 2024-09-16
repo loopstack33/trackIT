@@ -29,7 +29,6 @@ class _DashboardState extends State<Dashboard> {
       body: SafeArea(
         top: false,
         child: PageView(
-
           physics: const NeverScrollableScrollPhysics(),
           controller: controller,
           children: const [
@@ -65,7 +64,7 @@ class _DashboardState extends State<Dashboard> {
             title: const SizedBox(),
           ),
           BottomBarItem(
-            icon: Image.asset(AppImages.user,color:selected==3? AppColors.primaryColor:AppColors.iconColor,height: 25,width: 25,),
+            icon: Image.asset(AppImages.profile,color:selected==3? AppColors.primaryColor:AppColors.iconColor,height: 25,width: 25,),
             selectedColor: AppColors.primaryColor,
             unSelectedColor: AppColors.iconColor,
             title: const SizedBox(),
@@ -89,7 +88,7 @@ class _DashboardState extends State<Dashboard> {
           Get.to(()=> const TransactionAdd());
         },
         backgroundColor: AppColors.primaryColor,
-        child: Image.asset(AppImages.plus,color: AppColors.whiteColor,width: 25,height: 25,),
+        child: const Icon(Icons.add_outlined,color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

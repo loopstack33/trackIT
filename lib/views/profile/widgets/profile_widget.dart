@@ -10,8 +10,9 @@ class ProfileWidget extends StatelessWidget {
     return GestureDetector(
       onTap:onTap ?? (){},
       child: ListTile(
-        leading: Image.asset(image,width: 25,height: 25,),
-        title: TextWidget(text: title, size: 14, fontFamily: "semi", color: AppColors.blackColor),
+        leading:image==AppImages.logout? Image.asset(image,width: 22,height: 22,):
+        Image.asset(image,width: 25,height: 25,),
+        title: TextWidget(text: title, size: 14, fontFamily: "medium", color: AppColors.blackColor),
       )
     );
   }

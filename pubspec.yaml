@@ -47,6 +47,12 @@ dependencies:
   shared_preferences: ^2.2.3
   uuid:
   fancy_popups_new: ^0.0.6
+  intl_phone_field: ^3.2.0
+  share_plus: ^10.0.2
+  screenshot: ^3.0.0
+  syncfusion_flutter_charts: ^26.2.14
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

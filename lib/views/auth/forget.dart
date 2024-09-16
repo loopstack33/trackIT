@@ -15,7 +15,8 @@ class Forget extends StatelessWidget {
             color: AppColors.whiteColor,
             image: DecorationImage(
                 image: AssetImage(AppImages.top),
-                alignment: Alignment.topCenter
+                alignment: Alignment.topCenter,
+                fit: BoxFit.fitWidth
             )
         ),
         child: SingleChildScrollView(
@@ -33,7 +34,7 @@ class Forget extends StatelessWidget {
                               onTap: (){
                                 Get.back();
                               },
-                              child: Image.asset(AppImages.arrow,width: 20,height: 20,)
+                              child:const Icon(Icons.arrow_back_ios_new,color: Colors.white)
                           ),
                           TextWidget(text:"FORGET PASSWORD", size: 18, fontFamily: "semi", color: AppColors.whiteColor),
                           Icon(Icons.help,color: AppColors.whiteColor),
@@ -61,8 +62,7 @@ class Forget extends StatelessWidget {
                         TextWidget(text: "EMAIL", size: 12, fontFamily: "medium", color: AppColors.textColor),
                         const SizedBox(height: 5),
                         CustomField(hint: "Enter Email", controller: authController.forgetEmail,
-                            suffixIcon: Image.asset(AppImages.email,width: 25,height: 25,color: const Color(0xFF979C9E),
-                        ),
+                            suffixIcon: const Icon(Icons.mail_rounded,color: Color(0xFF979C9E)),
                           validator: (value) {
                             if(value ==null || value.isEmpty){
                               return "Email Cannot Be Empty";

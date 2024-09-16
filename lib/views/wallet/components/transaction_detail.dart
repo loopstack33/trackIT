@@ -1,7 +1,7 @@
 
 import 'package:intl/intl.dart';
 import 'package:track_it/service/firebase_service.dart';
-
+import 'package:share_plus/share_plus.dart';
 import '../../../enums/dependencies.dart';
 
 class TransactionDetail extends StatelessWidget {
@@ -12,6 +12,7 @@ class TransactionDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var walletController = Get.put(WalletController());
+    //ScreenshotController screenshotController = ScreenshotController();
 
     return Scaffold(
       body: SizedBox(
@@ -21,7 +22,7 @@ class TransactionDetail extends StatelessWidget {
           children: [
             Container(
                 width: MediaQuery.of(context).size.width,
-                height: 100,
+                height: 110,
                 decoration: BoxDecoration(
                     color: AppColors.whiteColor,
                     image: DecorationImage(
@@ -32,7 +33,7 @@ class TransactionDetail extends StatelessWidget {
                     borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20))
                 ),
-                padding: const EdgeInsets.only(left: 20,right: 20,top: 30),
+                padding: const EdgeInsets.only(left: 20,right: 20,top: 40),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -40,10 +41,17 @@ class TransactionDetail extends StatelessWidget {
                       onTap: (){
                         Get.back();
                       },
-                      child: Image.asset(AppImages.arrow,width: 20,height: 20,)
+                      child: const Icon(Icons.arrow_back_ios_sharp,color: Colors.white,size: 20)
                     ),
                     TextWidget(text:isIncome? "Transaction Details": "Bill Details", size: 18, fontFamily: "semi", color: AppColors.whiteColor),
-                    Image.asset(AppImages.dots,width: 20,height: 20,),
+                    data.get("paid")? const SizedBox():
+                    GestureDetector(
+                        onTap: (){
+                          walletController.setValues(data);
+                          Get.to(()=> const TransactionAdd(isEdit: true));
+                        },
+                        child: const Icon(Icons.edit_outlined,color: Colors.white,size: 20)
+                    ),
                   ],
                 )),
             Expanded(child: Container(
@@ -108,7 +116,7 @@ class TransactionDetail extends StatelessWidget {
                             AppColors.incomeColor:
                             AppColors.outComeColor),
                           ]),
-                      const SizedBox(height: 20),
+
 
                     ],
                   )),
@@ -159,7 +167,8 @@ class TransactionDetail extends StatelessWidget {
                      isGradient: true,
                      borderColor: Colors.transparent,
                      gradient: AppColors.splashGradient,),
-                 ]
+                 ],
+                  const SizedBox(height: 10),
                 ],
               ),
             ))

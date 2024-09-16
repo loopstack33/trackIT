@@ -19,7 +19,7 @@ class WalletDetails extends StatelessWidget {
                 if (snapshot.hasData) {
                   if(snapshot.data!.docs.isNotEmpty){
                     return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
+
                         padding: const EdgeInsets.only(top: 10),
                         itemBuilder: (context,index){
                           var data = snapshot.data!.docs[index];
@@ -55,7 +55,7 @@ class WalletDetails extends StatelessWidget {
                 if (snapshot.hasData) {
                   if(snapshot.data!.docs.isNotEmpty){
                     return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
+
                         padding: const EdgeInsets.only(top: 10),
                         itemBuilder: (context,index){
                           var data = snapshot.data!.docs[index];

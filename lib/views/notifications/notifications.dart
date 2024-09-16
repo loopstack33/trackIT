@@ -13,7 +13,7 @@ class Notifications extends StatelessWidget {
           children: [
             Container(
                 width: MediaQuery.of(context).size.width,
-                height: 100,
+                height: 110,
                 decoration: BoxDecoration(
                     color: AppColors.whiteColor,
                     image: DecorationImage(
@@ -24,14 +24,14 @@ class Notifications extends StatelessWidget {
                     borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20))
                 ),
-                padding: const EdgeInsets.only(left: 20,right: 20,top: 30),
+                padding: const EdgeInsets.only(left: 20,right: 20,top: 40),
                 child: Row(
                   children: [
                     GestureDetector(
                         onTap: (){
                           Get.back();
                         },
-                        child: Image.asset(AppImages.arrow,width: 20,height: 20,)
+                        child: const Icon(Icons.arrow_back_ios_sharp,color: Colors.white,size: 20)
                     ),
                     const SizedBox(width: 20),
                     TextWidget(text: "Notifications", size: 20, fontFamily: "semi", color: AppColors.whiteColor),

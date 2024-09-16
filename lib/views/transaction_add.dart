@@ -17,14 +17,15 @@ class TransactionAdd extends StatelessWidget {
             color: AppColors.whiteColor,
             image: DecorationImage(
                 image: AssetImage(AppImages.top),
-                alignment: Alignment.topCenter
+                alignment: Alignment.topCenter,
+                fit: BoxFit.fitWidth
             )
         ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 60),
+              const SizedBox(height: 70),
               Padding(padding: const EdgeInsets.only(left: 20,right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,13 +34,13 @@ class TransactionAdd extends StatelessWidget {
                           onTap: (){
                             Get.back();
                           },
-                          child: Image.asset(AppImages.arrow,width: 20,height: 20,)
+                          child: const Icon(Icons.arrow_back_ios_sharp,color: Colors.white,size: 20)
                       ),
                       TextWidget(text:isEdit?"Update Transcation":"Add Transaction", size: 18, fontFamily: "semi", color: AppColors.whiteColor),
-                      Image.asset(AppImages.dots,width: 20,height: 20,),
+                      const SizedBox()
                     ],
                   )),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Container(
                 width: MediaQuery.of(context).size.width*0.9,
                 decoration: BoxDecoration(
@@ -56,7 +57,56 @@ class TransactionAdd extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 child: Form(
                     key: walletController.formKey,
-                    child: Column(
+                    child:isEdit? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(text: "NAME", size: 12, fontFamily: "medium", color: AppColors.textColor),
+                        const SizedBox(height: 5),
+                        CustomField(hint: "Enter Name", controller: walletController.name,
+                          validator: (value) {
+                            if(value ==null || value.isEmpty){
+                              return "Please Enter Your Name";
+
+                            }
+                            return null;
+                          },),
+                        const SizedBox(height: 10),
+                        TextWidget(text: "DATE", size: 12, fontFamily: "medium", color: AppColors.textColor),
+                        const SizedBox(height: 5),
+                        GestureDetector(
+                          onTap: (){
+                            walletController.selectDateTime(context);
+                          },
+                          child: AbsorbPointer(
+                              absorbing: true,
+                              child: CustomField(hint: "Select Date", controller: walletController.date,
+                                suffixIcon: Icon(Icons.calendar_today_outlined,color: AppColors.iconColor,),
+                                readOnly: true,
+                                validator: (value) {
+                                  if(value ==null || value.isEmpty){
+                                    return "Please Select Date";
+
+                                  }
+                                  return null;
+                                },)
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        CustomButton(onTap: (){
+                          if (walletController.formKey.currentState!.validate()) {
+                            if(isEdit){
+                              walletController.updateTransaction2(walletController.docID.value, autController.userID.value);
+                            }
+                           else{
+                              walletController.addTransaction(autController.userID.value);
+                            }
+                          }
+                        }, text:isEdit? "Update" :"Submit",
+                          color: AppColors.whiteColor,textColor: AppColors.primaryColor,
+                          borderColor: AppColors.primaryColor,)
+                      ],
+                    ):
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextWidget(text: "NAME", size: 12, fontFamily: "medium", color: AppColors.textColor),
@@ -72,7 +122,7 @@ class TransactionAdd extends StatelessWidget {
                         const SizedBox(height: 10),
                         TextWidget(text: "AMOUNT", size: 12, fontFamily: "medium", color: AppColors.textColor),
                         const SizedBox(height: 5),
-                        CustomField(hint: "Enter Amount", controller: walletController.amount,suffixIcon: Image.asset(AppImages.currency,width: 25,height: 25),
+                        CustomField(hint: "Enter Amount", controller: walletController.amount,
                           validator: (value) {
                             if(value ==null || value.isEmpty){
                               return "Please Enter Your Amount";
@@ -80,8 +130,8 @@ class TransactionAdd extends StatelessWidget {
                             }
                             return null;
                           },
-                        inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[0-9]")),],
-                        keyboard: TextInputType.number,),
+                          inputFormatters: [ FilteringTextInputFormatter.allow(RegExp("[0-9]")),],
+                          keyboard: TextInputType.number,),
                         const SizedBox(height: 10),
                         TextWidget(text: "DATE", size: 12, fontFamily: "medium", color: AppColors.textColor),
                         const SizedBox(height: 5),
@@ -92,7 +142,7 @@ class TransactionAdd extends StatelessWidget {
                           child: AbsorbPointer(
                               absorbing: true,
                               child: CustomField(hint: "Select Date", controller: walletController.date,
-                                suffixIcon: Image.asset(AppImages.calendar,width: 25,height: 25),
+                                suffixIcon: Icon(Icons.calendar_today_outlined,color: AppColors.iconColor,),
                                 readOnly: true,
                                 validator: (value) {
                                   if(value ==null || value.isEmpty){

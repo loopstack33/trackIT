@@ -195,7 +195,7 @@ class AuthController extends GetxController {
           "phone": "",
           "name": name.text.toString().trim(),
           "status": "Active",
-          "balance": int.parse(balance.text.toString().trim()) ,
+          "balance": int.parse(balance.text.toString().trim()),
           "income": int.parse(income.text.toString().trim())
         });
 
