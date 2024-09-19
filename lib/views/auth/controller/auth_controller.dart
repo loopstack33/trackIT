@@ -290,7 +290,7 @@ class AuthController extends GetxController {
         update();
         BotToast.closeAllLoading();
         Future.delayed(const Duration(seconds: 1),(){
-          Get.to(()=> const Dashboard());
+          Get.offAll(()=> const Dashboard());
         });
       }
     }).catchError((e) async {

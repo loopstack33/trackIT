@@ -37,6 +37,10 @@ class TransactionCard extends StatelessWidget {
                         AppImages.cash:
                         data.get("name").toString().trim().contains("Bank")?
                         AppImages.bankIcon:
+                        data.get("name").toString().trim().contains("Transfer")?
+                        AppImages.transfer:
+                        data.get("name").toString().trim().contains("Paid To")?
+                        AppImages.person:
                         AppImages.bill),
                   ),
                   const SizedBox(width: 10),

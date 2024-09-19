@@ -48,7 +48,7 @@ class CardWidget extends StatelessWidget {
               }
             },
           ),
-          const SizedBox(height: 50),
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

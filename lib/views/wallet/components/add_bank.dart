@@ -129,9 +129,7 @@ class _AddBankState extends State<AddBank> {
                                 return Container();
                               }
                               else {
-                                return  Center(
-                                  child: CircularProgressIndicator(color: AppColors.primaryColor),
-                                );
+                                return Container();
                               }
                             },
                           ),

@@ -4,7 +4,9 @@ import 'package:uuid/uuid.dart';
 
 class WalletController extends GetxController {
   final formKey = GlobalKey<FormState>();
+
   var docID = "".obs;
+  final formKey2 = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController amount = TextEditingController();
   TextEditingController date = TextEditingController();
@@ -106,6 +108,7 @@ class WalletController extends GetxController {
       BotToast.closeAllLoading();
       BotToast.showText(text: "Transaction Added Successfully");
       resetValues();
+      Get.back();
 
     }).catchError((e){
       BotToast.closeAllLoading();

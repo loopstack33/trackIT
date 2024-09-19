@@ -12,10 +12,10 @@ class NoData extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(height: 40),
-        Image.asset(image,height: 200),
         const SizedBox(height: 20),
-        TextWidget(text: name, size: 22, fontFamily: "medium", color: AppColors.blackColor),
+        Image.asset(image,height: 150),
+        const SizedBox(height: 20),
+        TextWidget(text: name, size: 20, fontFamily: "medium", color: AppColors.blackColor),
       ],
     ));
   }

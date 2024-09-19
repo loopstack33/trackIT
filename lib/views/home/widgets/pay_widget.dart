@@ -7,20 +7,23 @@ class PayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: const EdgeInsets.only(right: 12,left: 12),
-    child: Column(
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: AppColors.primaryLight,
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Image.asset(image)
-          ),
-        ),
-        const SizedBox(height: 5),
-        TextWidget(text: name, size: 12, fontFamily: "medium", color: AppColors.blackColor)
-      ],
-    ));
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(padding: const EdgeInsets.only(right: 10,left: 10),
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 25,
+                backgroundColor: AppColors.primaryLight,
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Image.asset(image)
+                ),
+              ),
+              const SizedBox(height: 5),
+              TextWidget(text: name, size: 10, fontFamily: "medium", color: AppColors.blackColor)
+            ],
+          ))
+    );
   }
 }

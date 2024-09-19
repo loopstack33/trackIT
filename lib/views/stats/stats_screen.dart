@@ -1,4 +1,5 @@
 
+
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -13,14 +14,6 @@ class StatsScreen extends StatefulWidget {
 
 class _StatsScreenState extends State<StatsScreen> {
   var autController = Get.put(AuthController());
-
-  final List<ChartData> chartData = [
-    ChartData(2010, 35),
-    ChartData(2011, 13),
-    ChartData(2012, 34),
-    ChartData(2013, 27),
-    ChartData(2014, 40)
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +79,9 @@ class _StatsScreenState extends State<StatsScreen> {
                         if (snapshot.hasData) {
                           if(snapshot.data!.docs.isNotEmpty){
 
-                             var filterList = snapshot.data!.docs.where((e)=> e.get("type")=="Expense").toList();
+                             var filterList = snapshot.data!.docs.where((e)=> e.get("amount") > 1000)
+                                 .where((e)=> e.get("type")=="Expense").toList();
+
                             return  SfCartesianChart(
                               tooltipBehavior: TooltipBehavior(enable:true),
                               plotAreaBorderWidth: 0,
@@ -157,14 +152,17 @@ class _StatsScreenState extends State<StatsScreen> {
                           else {
                             return const NoData(name: "No Graph Data Found",);
                           }
-
                         }
                         else if(snapshot.hasError){
                           return Container();
                         }
                         else {
-                          return  Center(
-                            child: CircularProgressIndicator(color: AppColors.primaryColor),
+                          return  SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 300,
+                            child: Center(
+                              child: CircularProgressIndicator(color: AppColors.primaryColor),
+                            )
                           );
                         }
                       },
@@ -179,22 +177,34 @@ class _StatsScreenState extends State<StatsScreen> {
                           if(snapshot.data!.docs.isNotEmpty){
                             var filterList = snapshot.data!.docs.where((e)=> e.get("amount") > 1000)
                                 .where((e)=> e.get("type")=="Expense").toList();
-                            return ListView.builder(
+                            return AnimationLimiter(
+                              child: ListView.builder(
                                 padding: const EdgeInsets.only(top: 10),
-                                itemBuilder: (context,index){
+                                shrinkWrap: true,
+                                itemCount: filterList.length,
+                                itemBuilder: (BuildContext context, int index) {
                                   var data = filterList[index];
-                                  return  TransactionCard(
-                                      onTap2: (){
-                                        Get.to(()=> TransactionDetail(
-                                            isIncome: data.get("isBill")? false : true,
+                                  return AnimationConfiguration.staggeredList(
+                                    position: index,
+                                    duration: const Duration(milliseconds: 375),
+                                    child: SlideAnimation(
+                                      verticalOffset: 50.0,
+                                      child: FadeInAnimation(
+                                        child:  TransactionCard(
+                                            onTap2: (){
+                                              Get.to(()=> TransactionDetail(
+                                                  isIncome: data.get("isBill")? false : true,
+                                                  data: data
+                                              ));
+                                            },
                                             data: data
-                                        ));
-                                      },
-                                      data: data
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 },
-                                shrinkWrap: true,
-                                itemCount: filterList.length);
+                              ),
+                            );
                           }
                           else {
                             return const NoData(name: "No Transactions Yet");
@@ -205,9 +215,17 @@ class _StatsScreenState extends State<StatsScreen> {
                           return Container();
                         }
                         else {
-                          return  Center(
-                            child: CircularProgressIndicator(color: AppColors.primaryColor),
-                          );
+                          return  Shimmer(
+                              linearGradient: AppColors.shimmerGradient,
+                              child: ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  itemCount: 5,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return const ShimmerLoading(
+                                        isLoading: true,
+                                        child: DummyCard());
+                                  }));
                         }
                       },
                     )),

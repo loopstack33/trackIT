@@ -18,20 +18,31 @@ class WalletDetails extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   if(snapshot.data!.docs.isNotEmpty){
-                    return ListView.builder(
-
+                    return AnimationLimiter(
+                      child: ListView.builder(
                         padding: const EdgeInsets.only(top: 10),
-                        itemBuilder: (context,index){
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (BuildContext context, int index) {
                           var data = snapshot.data!.docs[index];
-                          return  TransactionCard(isPay:false,
-                              onTap2: (){
-                                Get.to(()=> TransactionDetail(data: data));
-                              },
-                              data: data
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 375),
+                            child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: FadeInAnimation(
+                                child: TransactionCard(isPay:false,
+                                    onTap2: (){
+                                      Get.to(()=> TransactionDetail(data: data));
+                                    },
+                                    data: data
+                                ),
+                              ),
+                            ),
                           );
                         },
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.docs.length);
+                      ),
+                    );
                   }
                   else {
                     return const NoData(name: "No Transactions Yet",);
@@ -42,9 +53,17 @@ class WalletDetails extends StatelessWidget {
                   return Container();
                 }
                 else {
-                  return  Center(
-                    child: CircularProgressIndicator(color: AppColors.primaryColor),
-                  );
+                  return  Shimmer(
+                      linearGradient: AppColors.shimmerGradient,
+                      child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+                            return const ShimmerLoading(
+                                isLoading: true,
+                                child: DummyCard());
+                          }));
                 }
               },
             ),
@@ -54,24 +73,35 @@ class WalletDetails extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
                   if(snapshot.data!.docs.isNotEmpty){
-                    return ListView.builder(
-
+                    return AnimationLimiter(
+                      child: ListView.builder(
                         padding: const EdgeInsets.only(top: 10),
-                        itemBuilder: (context,index){
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (BuildContext context, int index) {
                           var data = snapshot.data!.docs[index];
-                          return  TransactionCard(isPay: true,
-                              onTap2: (){
-                                Get.to(()=>  TransactionDetail(
-                                  isIncome: false,
-                                  data: data
-                                ));
-                              },
-                              onTap: (){},
-                              data: data
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 375),
+                            child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: FadeInAnimation(
+                                child: TransactionCard(isPay: true,
+                                    onTap2: (){
+                                      Get.to(()=>  TransactionDetail(
+                                          isIncome: false,
+                                          data: data
+                                      ));
+                                    },
+                                    onTap: (){},
+                                    data: data
+                                ),
+                              ),
+                            ),
                           );
                         },
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.docs.length);
+                      ),
+                    );
                   }
                   else {
                     return const NoData(name: "No Transactions Yet",);
@@ -82,9 +112,17 @@ class WalletDetails extends StatelessWidget {
                   return Container();
                 }
                 else {
-                  return  Center(
-                    child: CircularProgressIndicator(color: AppColors.primaryColor),
-                  );
+                  return  Shimmer(
+                      linearGradient: AppColors.shimmerGradient,
+                      child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          itemBuilder: (BuildContext context, int index) {
+                            return const ShimmerLoading(
+                                isLoading: true,
+                                child: DummyCard());
+                          }));
                 }
               },
             ),

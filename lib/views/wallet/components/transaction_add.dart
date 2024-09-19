@@ -1,4 +1,5 @@
-import '../enums/dependencies.dart';
+
+import '../../../enums/dependencies.dart';
 
 class TransactionAdd extends StatelessWidget {
   final bool isEdit;
@@ -126,7 +127,9 @@ class TransactionAdd extends StatelessWidget {
                           validator: (value) {
                             if(value ==null || value.isEmpty){
                               return "Please Enter Your Amount";
-
+                            }
+                            else if(int.parse(value.toString().trim())==0){
+                              return "Amount Should be greater than zero";
                             }
                             return null;
                           },
@@ -183,7 +186,16 @@ class TransactionAdd extends StatelessWidget {
                         const SizedBox(height: 20),
                         CustomButton(onTap: (){
                           if (walletController.formKey.currentState!.validate()) {
-                            walletController.addTransaction(autController.userID.value);
+                            FirebaseService.checkBalance(autController.userID.value, walletController.amount.text.toString().trim()).then((val){
+                              if(val==""){
+                                walletController.addTransaction(autController.userID.value);
+                              }
+                              else{
+                                BotToast.showSimpleNotification(title: val,titleStyle: MyTextStyle.montserratRegular(14, AppColors.whiteColor),
+                                    backgroundColor: AppColors.outComeColor);
+                              }
+                            });
+
                           }
                         }, text:isEdit? "Update" :"Submit",
                           color: AppColors.whiteColor,textColor: AppColors.primaryColor,
@@ -198,4 +210,5 @@ class TransactionAdd extends StatelessWidget {
       ),
     );
   }
+
 }

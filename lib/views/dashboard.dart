@@ -28,16 +28,15 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       body: SafeArea(
         top: false,
-        child: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: controller,
-          children: const [
+        child: IndexedStack(
+          index: selected,
+          children:const [
             HomeScreen(),
             StatsScreen(),
             WalletScreen(),
             ProfileScreen()
           ],
-        ),
+        )
       ),
       bottomNavigationBar: StylishBottomBar(
         option: AnimatedBarOptions(
@@ -76,7 +75,6 @@ class _DashboardState extends State<Dashboard> {
         notchStyle: NotchStyle.circle,
         onTap: (index) {
           if (index == selected) return;
-          controller.jumpToPage(index);
           setState(() {
             selected = index;
           });
